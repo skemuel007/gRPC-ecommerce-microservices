@@ -2,9 +2,6 @@
 using Grpc.Core;
 using Grpc.Net.Client;
 using ProductGrpc.Protos;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using static ProductGrpc.Protos.ProductProtoService;
 
 namespace ProductGrpcClient
@@ -119,7 +116,10 @@ namespace ProductGrpcClient
             var deleteProductResponse = await client.DeleteProductAsync(
                                  new DeleteProductRequest
                                  {
-                                     ProductId = 3
+                                     Product = new ProductModel()
+                                     {
+                                         
+                                     }
                                  });
 
             Console.WriteLine("DeleteProductAsync Response: " + deleteProductResponse.Success.ToString());
