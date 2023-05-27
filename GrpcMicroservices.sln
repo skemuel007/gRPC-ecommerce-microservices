@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductGrpc", "ProductGrpc\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductGrpcClient", "ProductGrpcClient\ProductGrpcClient.csproj", "{423E6E40-625B-4FD0-B6E9-E266FDE935B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductWorkerService", "ProductWorkerService\ProductWorkerService.csproj", "{BAFCFAEF-A0F2-490E-B376-10B7E969F16B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{423E6E40-625B-4FD0-B6E9-E266FDE935B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{423E6E40-625B-4FD0-B6E9-E266FDE935B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{423E6E40-625B-4FD0-B6E9-E266FDE935B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAFCFAEF-A0F2-490E-B376-10B7E969F16B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAFCFAEF-A0F2-490E-B376-10B7E969F16B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAFCFAEF-A0F2-490E-B376-10B7E969F16B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAFCFAEF-A0F2-490E-B376-10B7E969F16B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

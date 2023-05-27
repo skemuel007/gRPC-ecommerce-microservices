@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-ProductWorkerService-7C677A34-ADF4-4EE4-8F7E-1742FBBD8344</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.23.2" />
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.53.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.54.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="..\ProductGrpc\Protos\product.proto" GrpcServices="Client">
+            <Link>Protos\product.proto</Link>
+        </Protobuf>
+    </ItemGroup>
+</Project>
