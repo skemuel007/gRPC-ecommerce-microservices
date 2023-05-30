@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using ProductGrpc.Data;
 using ProductGrpc.Extensions;
@@ -10,6 +12,19 @@ namespace ProductGrpc
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
+            bool isMacOS = System.Runtime.InteropServices.RuntimeInformation
+                .IsOSPlatform(OSPlatform.OSX);
+
+            if (isMacOS)
+            {
+                builder.WebHost.ConfigureKestrel(options =>
+                {
+                    // Setup a HTTP/2 endpoint without TLS.
+                    options.ListenLocalhost(5010, o => o.Protocols =
+                        HttpProtocols.Http2);
+                });
+            }
 
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();
@@ -18,7 +33,11 @@ namespace ProductGrpc
             // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
 
             // Add services to the container.
-            builder.Services.AddGrpc();
+            builder.Services.AddGrpc(opt =>
+            {
+                opt.EnableDetailedErrors = true;
+            });
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddDbContext<ProductsContext>(options => options.UseInMemoryDatabase(databaseName: "Products"));
 
             var app = builder.Build();

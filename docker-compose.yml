@@ -1,0 +1,33 @@
+﻿version: '3.4'
+
+services:
+  productgrpc:
+    image: productgrpc
+    build:
+      context: .
+      dockerfile: ProductGrpc/Dockerfile
+    networks:
+      - grpc_network
+        
+  productgrpcclient:
+    image: productgrpcclient
+    build:
+      context: .
+      dockerfile: ProductGrpcClient/Dockerfile
+      
+  db:
+    container_name: sql-server
+    restart: always
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "grpcdb1234"
+      MSSQL_PID: "Development"
+      MSSQL_USER: "Sa"
+      ACCEPT_EULA: "Y"
+    networks:
+      - grpc_network
+
+networks:
+  grpc_network:
+    driver: bridge
