@@ -14,7 +14,7 @@ namespace ProductGrpcClient
             Console.WriteLine("Waiting for server is running");
             Thread.Sleep(2000);
 
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            using var channel = GrpcChannel.ForAddress("http://localhost:5010");
             var client = new ProductProtoService.ProductProtoServiceClient(channel);
 
             await GetProductAsync(client);
@@ -116,10 +116,7 @@ namespace ProductGrpcClient
             var deleteProductResponse = await client.DeleteProductAsync(
                                  new DeleteProductRequest
                                  {
-                                     Product = new ProductModel()
-                                     {
-                                         
-                                     }
+                                     ProductId = 3
                                  });
 
             Console.WriteLine("DeleteProductAsync Response: " + deleteProductResponse.Success.ToString());
