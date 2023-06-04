@@ -21,7 +21,7 @@ namespace ProductGrpc
                 builder.WebHost.ConfigureKestrel(options =>
                 {
                     // Setup a HTTP/2 endpoint without TLS.
-                    options.ListenLocalhost(5010, o => o.Protocols =
+                    options.ListenLocalhost(5001, o => o.Protocols =
                         HttpProtocols.Http2);
                 });
             }

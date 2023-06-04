@@ -1,5 +1,6 @@
 using AutoMapper;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCartGrpc.Data;
 using ShoppingCartGrpc.Models;
@@ -7,19 +8,22 @@ using ShoppingCartGrpc.Protos;
 
 namespace ShoppingCartGrpc.Services;
 
+[Authorize]
 public class ShoppingCartService : ShoppingCartGrpcProtoService.ShoppingCartGrpcProtoServiceBase
 {
     private readonly ShoppingCartContext _shoppingCartContext;
     private readonly ILogger<ShoppingCartService> _logger;
     private readonly IMapper _mapper;
-
+    private readonly DiscountService _discountService;
     public ShoppingCartService(ShoppingCartContext shoppingCartContext,
         ILogger<ShoppingCartService> logger,
-        IMapper mapper)
+        IMapper mapper,
+        DiscountService discountService)
     {
         _shoppingCartContext = shoppingCartContext ?? throw new ArgumentNullException(nameof(shoppingCartContext));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        _discountService = discountService ?? throw new ArgumentNullException(nameof(discountService));
     }
 
     public override async Task<ShoppingCartModel> GetShoppingCart(GetShoppingCartRequest request, ServerCallContext context)
@@ -36,6 +40,7 @@ public class ShoppingCartService : ShoppingCartGrpcProtoService.ShoppingCartGrpc
         return shoppingCartModel;
     }
 
+    [AllowAnonymous]
     public override async Task<ShoppingCartModel> CreateShoppingCart(ShoppingCartModel request, ServerCallContext context)
     {
         var shoppingCart = _mapper.Map<ShoppingCart>(request);
@@ -57,6 +62,7 @@ public class ShoppingCartService : ShoppingCartGrpcProtoService.ShoppingCartGrpc
         return shoppingCartModel;
     }
 
+    [AllowAnonymous]
     public override async Task<RemoveItemFromShoppingCartResponse> RemoveItemFromShoppingCart(RemoveItemFromShoppingCartRequest request, ServerCallContext context)
     {
         var shoppingCart = await _shoppingCartContext.ShoppingCart.SingleOrDefaultAsync(s => s.UserName == request.Username);
@@ -83,6 +89,7 @@ public class ShoppingCartService : ShoppingCartGrpcProtoService.ShoppingCartGrpc
         return response;           
     }
 
+    [AllowAnonymous]
     public override async Task<AddItemIntoShoppingCartResponse> AddItemIntoShoppingCart(IAsyncStreamReader<AddItemIntoShoppingCartRequest> requestStream, ServerCallContext context)
     {
         while (await requestStream.MoveNext())
@@ -102,8 +109,8 @@ public class ShoppingCartService : ShoppingCartGrpcProtoService.ShoppingCartGrpc
             else
             {
                 // grpc call discount services - check and calculate 
-                float discount = 100;
-                newlyAddedCartItem.Price -= discount;
+                var discount = await _discountService.GetDiscount(requestStream.Current.DiscountCode);
+                newlyAddedCartItem.Price -= discount.Amount;
                 shoppingCart.Items.Add(newlyAddedCartItem);
             }
             

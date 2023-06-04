@@ -1,10 +1,9 @@
 {
   "profiles": {
-    "ShoppingCartGrpc": {
+    "ShoppingCartWorkService": {
       "commandName": "Project",
-      "applicationUrl": "http://localhost:5002",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "DOTNET_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true
     }

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-ShoppingCartWorkService-4C6F0254-061E-478E-9511-48FD06D80447</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="IdentityModel" Version="6.1.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+        <PackageReference Include="Grpc.Tools" Version="2.54.0">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Google.Protobuf" Version="3.23.2" />
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.53.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <Protobuf Include="..\ProductGrpc\Protos\product.proto" GrpcServices="Client">
+        <Link>Protos\product.proto</Link>
+      </Protobuf>
+      <Protobuf Include="..\ShoppingCartGrpc\Protos\shoppingcart.proto" GrpcServices="Client">
+        <Link>Protos\shoppingcart.proto</Link>
+      </Protobuf>
+    </ItemGroup>
+</Project>

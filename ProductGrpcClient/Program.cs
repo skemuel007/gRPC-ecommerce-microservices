@@ -14,7 +14,7 @@ namespace ProductGrpcClient
             Console.WriteLine("Waiting for server is running");
             Thread.Sleep(2000);
 
-            using var channel = GrpcChannel.ForAddress("http://localhost:5010");
+            using var channel = GrpcChannel.ForAddress("http://localhost:5001");
             var client = new ProductProtoService.ProductProtoServiceClient(channel);
 
             await GetProductAsync(client);
